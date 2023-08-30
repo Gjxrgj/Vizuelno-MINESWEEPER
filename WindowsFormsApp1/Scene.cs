@@ -22,14 +22,13 @@ namespace WindowsFormsApp1
         }
         public void DrawAll(Graphics graphics)
         {
-            foreach(Bomb bomb in Bombs)
-            {
-                bomb.Draw(graphics);
-            }
-            
             foreach (Box box in Boxes)
             {
                 box.Draw(graphics);
+            }
+            foreach (Bomb bomb in Bombs)
+            {
+                bomb.Draw(graphics);
             }
             foreach (Number number in Numbers)
             {
@@ -78,18 +77,17 @@ namespace WindowsFormsApp1
             int j = 0;
             for (int i = 0; i < 81; i++)
             {
-                j ++;
-                if(j > 9)
+                j++;
+                if (j > 9)
                 {
                     j = 0;
                 }
                 x += j * 30;
                 //Reset for X coordinate
-                if (x > 270)
+                if (x > 330)
                 {
                     x = xMargin;
                 }
-                Console.WriteLine("X coordinate: " + x);
                 int num = 0;
                 if(i % 9 == 0)
                 {
@@ -104,11 +102,13 @@ namespace WindowsFormsApp1
                     }
                 }
                 bool AddNumber = true;
+                Console.WriteLine("X coordinate::" + x);
                 //Find if the number being added is on top of a bomb
-                foreach(Bomb bomb in Bombs)
+                foreach (Bomb bomb in Bombs)
                 {
                     if(bomb.IsColliding(x, y))
                     {
+                       
                         AddNumber = false;
                         break;
                     }

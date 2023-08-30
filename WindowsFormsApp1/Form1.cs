@@ -13,7 +13,6 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         Scene Scene;
-        int seconds;
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +28,6 @@ namespace WindowsFormsApp1
             timer1.Interval = 1000;
             timer1.Enabled = true;
             timer1.Start();
-            seconds = 0;
         }
         public void RandomizeBombs()
         {
