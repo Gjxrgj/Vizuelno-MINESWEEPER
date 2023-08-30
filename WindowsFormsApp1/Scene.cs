@@ -13,28 +13,70 @@ namespace WindowsFormsApp1
         public List<Bomb> Bombs { get; set; }
         public List<Box> Boxes{ get; set; }
         public List<Number> Numbers{ get; set; }
+        public List<Flag> Flags{ get; set; }
 
         public Scene()
         {
             Bombs = new List<Bomb>();
             Boxes = new List<Box>();
             Numbers = new List<Number>();
+            Flags = new List<Flag>();
         }
         public void DrawAll(Graphics graphics)
         {
-            foreach(Bomb bomb in Bombs)
-            {
-                bomb.Draw(graphics);
-            }
-            
             foreach (Box box in Boxes)
             {
                 box.Draw(graphics);
+            }
+            foreach (Bomb bomb in Bombs)
+            {
+                bomb.Draw(graphics);
             }
             foreach (Number number in Numbers)
             {
                 number.Draw(graphics);
             }
+            foreach (Flag flag in Flags)
+            {
+                flag.Draw(graphics);
+            }
+        }
+        public bool Gameover()
+        {
+            if (Boxes.Count == 10)
+                return true;
+            return false;
+        }
+        public void AddOrRemoveFlag(int closestX, int closestY, int actualX, int actualY)
+        {
+            bool AddFlag = true;
+            for(int i = 0; i < Flags.Count; i++)
+            {
+                if (Flags[i].IsClicked(actualX, actualY))
+                {
+                    AddFlag = false;
+                    Flags.RemoveAt(i--);
+                    break;
+                }
+            }
+            if (AddFlag)
+            {
+                foreach(Box box in Boxes)
+                {
+                    if (box.IsClicked(actualX, actualY)) {
+                        Flags.Add(new Flag(closestX, closestY));
+                    }
+                }
+            }
+        }
+        public bool AnyFlagClicked(int x, int y)
+        {
+            foreach(Flag flag in Flags)
+            {
+                if (flag.IsClicked(x, y))
+                    return true;
+            }
+            return false;
         }
         public void AddBomb(int x, int y)
         {
@@ -78,18 +120,17 @@ namespace WindowsFormsApp1
             int j = 0;
             for (int i = 0; i < 81; i++)
             {
-                j ++;
-                if(j > 9)
+                j++;
+                if (j > 9)
                 {
                     j = 0;
                 }
                 x += j * 30;
                 //Reset for X coordinate
-                if (x > 270)
+                if (x > 330)
                 {
                     x = xMargin;
                 }
-                Console.WriteLine("X coordinate: " + x);
                 int num = 0;
                 if(i % 9 == 0)
                 {
@@ -104,11 +145,13 @@ namespace WindowsFormsApp1
                     }
                 }
                 bool AddNumber = true;
+                Console.WriteLine("X coordinate::" + x);
                 //Find if the number being added is on top of a bomb
-                foreach(Bomb bomb in Bombs)
+                foreach (Bomb bomb in Bombs)
                 {
                     if(bomb.IsColliding(x, y))
                     {
+                       
                         AddNumber = false;
                         break;
                     }

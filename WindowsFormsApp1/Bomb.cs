@@ -26,13 +26,25 @@ namespace WindowsFormsApp1
         }
         public bool IsAdjacent(int x, int y)
         {
-            // Check if the coordinates (x, y) are adjacent to the bomb's position
-            if (Math.Abs(X - x) <= 30 && Math.Abs(Y - y) <= 30)
-            {
-                return true; // Coordinates are adjacent to the bomb
-            }
-
-            return false; // Coordinates are not adjacent to the bomb
+            x -= 10;
+            y -= 15;
+            if(x - 30 == X && y - 30 == Y)
+                return true;
+            if (x == X & y - 30 == Y)
+                return true;
+            if (x + 30 == X & y - 30 == Y)
+                return true;
+            if (x - 30 == X & y == Y)
+                return true;
+            if (x + 30 == X & y == Y)
+                return true;
+            if (x - 30 == X & y + 30 == Y)
+                return true;
+            if (y + 30 == Y & x == X)
+                return true;
+            if (x + 30 == X & y + 30 == Y)
+                return true;
+            return false;
         }
         public bool IsClicked(int x, int y)
         {
@@ -44,12 +56,19 @@ namespace WindowsFormsApp1
         }
         public bool IsColliding(int x, int y)
         {
+            x -= 10;
+            y -= 15;
+            Console.WriteLine("X coordinate: " + x + " - Y coordinate: " + y);
+            Console.WriteLine("X coordinate BOMB: " + X + " - Y coordinate BOMB: " + Y);
             // Check if the coordinates (x, y) are colliding with the bomb
-            if (Math.Abs(X - x) < 30 && Math.Abs(Y - y) < 30)
+            if (x == X && y == Y)
             {
-                return true; // Coordinates are colliding with the bomb
+                Console.WriteLine("TUKA");
+                Console.WriteLine("X coordinate: " + (x - 10) + " - Y coordinate: " + (y - 15));
+                Console.WriteLine("X coordinate BOMB: " + X + " - Y coordinate BOMB: " + Y);
+                return true;    
             }
-            return false; // Coordinates are not colliding with the bomb
+            return false;
         }
     }
 }

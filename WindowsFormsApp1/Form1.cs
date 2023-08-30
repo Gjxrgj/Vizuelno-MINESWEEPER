@@ -13,7 +13,6 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         Scene Scene;
-        int seconds;
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +28,6 @@ namespace WindowsFormsApp1
             timer1.Interval = 1000;
             timer1.Enabled = true;
             timer1.Start();
-            seconds = 0;
         }
         public void RandomizeBombs()
         {
@@ -85,22 +83,61 @@ namespace WindowsFormsApp1
             Invalidate();
         }
 
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        private int GetClosestLowerValue(int value, int[] values)
         {
-            Scene.ClickBox(e.X, e.Y);
-            if (Scene.ClickBomb(e.X, e.Y))
+
+            int closestValue = values[0];
+
+            foreach (int v in values)
             {
-                if (MessageBox.Show("Would you like to play again?", "Game over", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (v <= value)
                 {
-                    NewGame();
+                    closestValue = v;
                 }
                 else
                 {
-                    Application.Exit();
+                    break;
+                }
+            }
+
+            return closestValue;
+        }
+
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+            int[] xValues = { 70, 100, 130, 160, 190, 220, 250, 280, 310 };
+            int[] yValues = { 30, 60, 90, 120, 150, 180, 210, 240, 270 };
+
+            int closestX = GetClosestLowerValue(e.X, xValues);
+            int closestY = GetClosestLowerValue(e.Y, yValues);
+
+            if (e.Button == MouseButtons.Right)
+            {
+                Scene.AddOrRemoveFlag(closestX, closestY, e.X, e.Y);
+            }
+            else
+            {
+                if (!Scene.AnyFlagClicked(e.X, e.Y))
+                {
+                    if (Scene.ClickBomb(e.X, e.Y) || Scene.Gameover())
+                    {
+                        Scene.ClickBox(e.X, e.Y);
+                        Invalidate();
+                        if (MessageBox.Show("Would you like to play again?", "Game over", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            NewGame();
+                        }
+                        else
+                        {
+                            Application.Exit();
+                        }
+                    }
+                    Scene.ClickBox(e.X, e.Y);
                 }
             }
             Invalidate();
         }
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
