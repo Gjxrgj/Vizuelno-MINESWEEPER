@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,19 +15,16 @@ namespace WindowsFormsApp1
         Scene Scene;
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();  
             this.DoubleBuffered = true;
             NewGame();
         }
-        public void NewGame()
+        public void NewGame()   
         {
             Scene = new Scene();
             RandomizeBombs();
-            Scene.CreateNumbers();
             CreateBoxes();
-            timer1.Interval = 1000;
-            timer1.Enabled = true;
-            timer1.Start();
+            Scene.CreateNumbers();
         }
         public void RandomizeBombs()
         {
@@ -74,9 +71,6 @@ namespace WindowsFormsApp1
                 x += 30;
             }
         }
-
-
-
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             Scene.DrawAll(e.Graphics);
@@ -113,19 +107,41 @@ namespace WindowsFormsApp1
 
             if (e.Button == MouseButtons.Right)
             {
+                if(Scene.Flags.Count < 10)
+                {
                 Scene.AddOrRemoveFlag(closestX, closestY, e.X, e.Y);
+                }
+                flagRemaininglbl.Text = "Flags remaining: " + (10 - Scene.Flags.Count);
+                flagRemaininglbl.Refresh();
             }
             else
             {
                 if (!Scene.AnyFlagClicked(e.X, e.Y))
                 {
-                    if (Scene.ClickBomb(e.X, e.Y) || Scene.Gameover())
+                    //Game lose
+                    if (Scene.ClickBomb(e.X, e.Y))
                     {
                         Scene.ClickBox(e.X, e.Y);
                         Invalidate();
-                        if (MessageBox.Show("Would you like to play again?", "Game over", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show("You lost. Would you like to play again?", "Game Over", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             NewGame();
+                            return;
+                        }
+                        else
+                        {
+                            Application.Exit();
+                        }
+                    }
+                    //Game won
+                    else if (Scene.Gameover())
+                    {
+                        Scene.ClickBox(e.X, e.Y);
+                        Invalidate();
+                        if (MessageBox.Show("You won!!! Would you like to play again?", "Game over", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            NewGame();
+                            return;
                         }
                         else
                         {
@@ -134,14 +150,9 @@ namespace WindowsFormsApp1
                     }
                     Scene.ClickBox(e.X, e.Y);
                 }
+                Scene.RemoveFlagsOnClickedSpaces();
             }
             Invalidate();
-        }
-
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            Console.WriteLine("Whatever");
         }
     }
 }
