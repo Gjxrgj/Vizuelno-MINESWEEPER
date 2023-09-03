@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,6 +14,7 @@ namespace WindowsFormsApp1
         public int X { get; set; }
         public int Y { get; set; }
         public int Num { get; set; }
+        public Color Color { get; set; }
 
         public Number(int x, int y, int number)
         {
@@ -23,17 +24,37 @@ namespace WindowsFormsApp1
         }
         public void Draw(Graphics g)
         {
-            Font font = new Font("Arial", Size);
-            SolidBrush brush = new SolidBrush(Color.Red);
+            if (Num == 1)
+                this.Color = Color.Blue;
+            else if (Num == 2)
+                this.Color = Color.Green;
+            else if (Num == 3)
+                this.Color = Color.Red;
+            else if (Num == 4)
+                this.Color = Color.DarkBlue;
+            else if (Num == 5)
+                this.Color = Color.DarkRed;
+            else if (Num == 6)
+                this.Color = Color.LightBlue;
+            else if (Num == 7)
+                this.Color = Color.Black;
+            else
+                this.Color = Color.Gray;
 
-            string text = Num.ToString();
-            SizeF size = g.MeasureString(text, font);
+            if(this.Num != 0)
+            {
+                Font font = new Font("Arial", Size);
+                SolidBrush brush = new SolidBrush(this.Color);
 
-            g.DrawString(text, font, brush, X - size.Width / 2, Y - size.Height / 2);
+                string text = Num.ToString();
+                SizeF size = g.MeasureString(text, font);
 
-            // Dispose of the Font and SolidBrush objects
-            font.Dispose();
-            brush.Dispose();
+                g.DrawString(text, font, brush, X - size.Width / 2, Y - size.Height / 2);
+
+                // Dispose of the Font and SolidBrush objects
+                font.Dispose();
+                brush.Dispose();
+            }
         }
 
     }
