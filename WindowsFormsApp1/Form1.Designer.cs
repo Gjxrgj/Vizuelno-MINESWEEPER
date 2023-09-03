@@ -1,4 +1,4 @@
-﻿
+
 namespace WindowsFormsApp1
 {
     partial class Form1
@@ -43,8 +43,7 @@ namespace WindowsFormsApp1
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.flagRemaininglbl = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -156,27 +155,21 @@ namespace WindowsFormsApp1
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // label1
+            // flagRemaininglbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(530, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 20);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Timer: 0";
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.flagRemaininglbl.AutoSize = true;
+            this.flagRemaininglbl.Location = new System.Drawing.Point(434, 9);
+            this.flagRemaininglbl.Name = "flagRemaininglbl";
+            this.flagRemaininglbl.Size = new System.Drawing.Size(147, 20);
+            this.flagRemaininglbl.TabIndex = 1;
+            this.flagRemaininglbl.Text = "Flags remaining: 10";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 549);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.flagRemaininglbl);
             this.Controls.Add(this.toolStrip1);
             this.Name = "Form1";
             this.Text = "Minesweeper";
@@ -203,8 +196,7 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label flagRemaininglbl;
     }
 }
 
