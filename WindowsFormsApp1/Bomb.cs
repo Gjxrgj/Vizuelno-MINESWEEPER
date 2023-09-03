@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,6 +12,7 @@ namespace WindowsFormsApp1
         public readonly int Size = 30;
         public int X { get; set; }
         public int Y { get; set; }
+        public bool Covered { get; set; } = true;
 
         public Bomb(int x, int y)
         {
@@ -20,9 +21,20 @@ namespace WindowsFormsApp1
         }
         public void Draw(Graphics graphics)
         {
-            Brush brush = new SolidBrush(Color.Black);
-            graphics.FillEllipse(brush, X, Y, Size, Size);
-            brush.Dispose();
+            if (Covered)
+            {
+                Brush brush = new SolidBrush(Color.Gray);
+                Pen pen = new Pen(Color.Black);
+                graphics.FillRectangle(brush, this.X, this.Y, Size, Size);
+                graphics.DrawRectangle(pen, this.X, this.Y, Size, Size);
+                brush.Dispose();
+            }
+            else
+            {
+                Brush brush = new SolidBrush(Color.Black);
+                graphics.FillEllipse(brush, X, Y, Size, Size);
+                brush.Dispose();
+            }
         }
         public bool IsAdjacent(int x, int y)
         {
