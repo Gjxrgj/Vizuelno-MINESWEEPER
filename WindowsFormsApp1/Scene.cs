@@ -112,23 +112,22 @@ namespace WindowsFormsApp1
         }
         public void AddOrRemoveFlag(int closestX, int closestY, int actualX, int actualY)
         {
-            bool AddFlag = true;
-            for(int i = 0; i < Flags.Count; i++)
+            bool addFlag = true;
+
+            Box clickedBox = Boxes.FirstOrDefault(box => box.IsClicked(actualX, actualY));
+            if (clickedBox != null && clickedBox.clicked)
             {
-                if (Flags[i].IsClicked(actualX, actualY))
-                {
-                    AddFlag = false;
-                    Flags.RemoveAt(i--);
-                    break;
-                }
+                addFlag = false;
             }
-            if (AddFlag)
+
+            if (addFlag)
             {
-                foreach(Box box in Boxes)
+
+                bool flagExists = Flags.Any(flag => flag.IsClicked(actualX, actualY));
+
+                if (!flagExists)
                 {
-                    if (box.IsClicked(actualX, actualY) && box.clicked == false) {
-                        Flags.Add(new Flag(closestX, closestY));
-                    }
+                    Flags.Add(new Flag(closestX, closestY));
                 }
             }
         }
